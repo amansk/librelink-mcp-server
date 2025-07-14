@@ -1,0 +1,18 @@
+{
+  "credentials": {
+    "email": "your-librelink-email@example.com",
+    "password": "your-librelink-password"
+  },
+  "client": {
+    "version": "4.12.0",
+    "region": "US"
+  },
+  "cache": {
+    "enabled": true,
+    "ttl_minutes": 5
+  },
+  "ranges": {
+    "target_low": 70,
+    "target_high": 180
+  }
+}

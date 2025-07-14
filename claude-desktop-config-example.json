@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "librelink": {
+      "command": "node",
+      "args": ["/absolute/path/to/librelink-mcp-server/dist/index.js"]
+    }
+  }
+}

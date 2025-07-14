@@ -1,0 +1,50 @@
+{
+  "name": "librelink-mcp-server",
+  "version": "1.0.0",
+  "description": "Local MCP server for FreeStyle LibreLink glucose monitoring data",
+  "main": "dist/index.js",
+  "type": "module",
+  "bin": {
+    "librelink-mcp-server": "dist/index.js",
+    "librelink-mcp-configure": "dist/configure.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "ts-node src/index.ts",
+    "configure": "node dist/configure.js",
+    "lint": "echo 'No linting configured'",
+    "typecheck": "tsc --noEmit",
+    "test": "npm run test:mcp && npm run test:analytics",
+    "test:mcp": "node test-mcp.js",
+    "test:analytics": "node test-analytics.js",
+    "prepack": "npm run build",
+    "install:global": "npm run build && npm install -g ."
+  },
+  "keywords": ["mcp", "librelink", "glucose", "diabetes", "cgm", "freestyle-libre", "continuous-glucose-monitoring", "health", "medical", "claude"],
+  "author": "Amandeep Khurana <amansk@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amansk/librelink-mcp-server.git"
+  },
+  "bugs": {
+    "url": "https://github.com/amansk/librelink-mcp-server/issues"
+  },
+  "homepage": "https://github.com/amansk/librelink-mcp-server#readme",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.3",
+    "libre-link-unofficial-api": "^1.0.0-alpha.7",
+    "axios": "^1.6.0",
+    "zod": "^3.22.4",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "@types/node": "^20.0.0",
+    "ts-node": "^10.9.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
