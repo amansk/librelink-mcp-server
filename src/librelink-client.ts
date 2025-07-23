@@ -172,11 +172,17 @@ export class LibreLinkClient {
       const user = this.client.me;
       
       // Try to get a current reading to verify sensor is active
-      const reading = await this.client.read();
-      const isActive = reading && reading.value > 0;
+      let isActive = false;
+      try {
+        const reading = await this.client.read();
+        isActive = reading && reading.value > 0;
+      } catch (readError) {
+        // If read fails, sensor might not be active
+        isActive = false;
+      }
       
       const sensors: SensorInfo[] = [{
-        deviceId: user?.id || 'sensor-1',
+        deviceId: user && user.id ? user.id : 'sensor-1',
         serialNumber: 'FreeStyle-Libre-3',
         activationTime: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000), // Assume 7 days ago
         state: isActive ? 'Active' : 'Unknown',

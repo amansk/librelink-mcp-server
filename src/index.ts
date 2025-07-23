@@ -65,7 +65,7 @@ function handleError(error: any): any {
 const tools: Tool[] = [
   {
     name: 'get_current_glucose',
-    description: 'Get the current glucose reading from LibreLink',
+    description: 'Get the most recent glucose reading from your FreeStyle Libre sensor. Returns current glucose value in mg/dL, trend direction (rising/falling/stable), and whether the value is in target range. Use this for real-time glucose monitoring.',
     inputSchema: {
       type: 'object',
       properties: {},
@@ -74,13 +74,13 @@ const tools: Tool[] = [
   },
   {
     name: 'get_glucose_history',
-    description: 'Get historical glucose readings',
+    description: 'Retrieve historical glucose readings for analysis. Returns an array of timestamped glucose values. Useful for reviewing past glucose levels, identifying patterns, or checking overnight values. Default retrieves 24 hours of data.',
     inputSchema: {
       type: 'object',
       properties: {
         hours: {
           type: 'number',
-          description: 'Hours of history to retrieve (default: 24)'
+          description: 'Number of hours of history to retrieve (1-720). Default: 24. Examples: 1 for last hour, 8 for overnight, 168 for one week'
         }
       },
       required: []
@@ -88,13 +88,13 @@ const tools: Tool[] = [
   },
   {
     name: 'get_glucose_stats',
-    description: 'Get glucose statistics and time-in-range analysis',
+    description: 'Calculate comprehensive glucose statistics including average glucose, GMI (estimated A1C), time-in-range percentages, and variability metrics. Essential for diabetes management insights and identifying areas for improvement.',
     inputSchema: {
       type: 'object',
       properties: {
         days: {
           type: 'number',
-          description: 'Days to analyze (default: 7)'
+          description: 'Number of days to analyze (1-90). Default: 7. Common periods: 7 (weekly report), 14 (two weeks), 30 (monthly), 90 (quarterly)'
         }
       },
       required: []
@@ -102,14 +102,14 @@ const tools: Tool[] = [
   },
   {
     name: 'get_glucose_trends',
-    description: 'Analyze glucose trends and patterns',
+    description: 'Analyze glucose patterns including dawn phenomenon (early morning rise), meal responses, and overnight stability. Helps identify recurring patterns that may need attention or treatment adjustments.',
     inputSchema: {
       type: 'object',
       properties: {
         period: {
           type: 'string',
           enum: ['daily', 'weekly', 'monthly'],
-          description: 'Analysis period (default: weekly)'
+          description: 'Analysis period for pattern detection. Default: weekly. Use daily for detailed patterns, weekly for typical patterns, monthly for long-term trends'
         }
       },
       required: []
@@ -117,7 +117,7 @@ const tools: Tool[] = [
   },
   {
     name: 'get_sensor_info',
-    description: 'Get current sensor status and information',
+    description: 'Get information about your active FreeStyle Libre sensor including activation date, remaining lifetime, and connection status. Use this to check if sensor is working properly or needs replacement.',
     inputSchema: {
       type: 'object',
       properties: {},
@@ -126,22 +126,22 @@ const tools: Tool[] = [
   },
   {
     name: 'configure_credentials',
-    description: 'Configure LibreLink credentials',
+    description: 'Set up or update your LibreLink account credentials for data access. Required before using any glucose reading tools. Credentials are stored securely on your local machine only.',
     inputSchema: {
       type: 'object',
       properties: {
         email: {
           type: 'string',
-          description: 'LibreLink email address'
+          description: 'Your LibreLink account email address (same as used in the LibreLink app)'
         },
         password: {
           type: 'string',
-          description: 'LibreLink password'
+          description: 'Your LibreLink account password'
         },
         region: {
           type: 'string',
           enum: ['US', 'EU'],
-          description: 'LibreLink region (default: US)'
+          description: 'Your LibreLink account region. US for United States, EU for Europe. Default: US'
         }
       },
       required: ['email', 'password']
@@ -149,17 +149,17 @@ const tools: Tool[] = [
   },
   {
     name: 'configure_ranges',
-    description: 'Configure target glucose ranges',
+    description: 'Customize your target glucose range for personalized time-in-range calculations. Standard range is 70-180 mg/dL, but your healthcare provider may recommend different targets based on your individual needs.',
     inputSchema: {
       type: 'object',
       properties: {
         target_low: {
           type: 'number',
-          description: 'Target range low value in mg/dL (default: 70)'
+          description: 'Lower bound of target range in mg/dL. Common values: 70 (standard), 80 (tighter control), 60 (athletic)'
         },
         target_high: {
           type: 'number',
-          description: 'Target range high value in mg/dL (default: 180)'
+          description: 'Upper bound of target range in mg/dL. Common values: 180 (standard), 140 (tighter control), 200 (relaxed)'
         }
       },
       required: ['target_low', 'target_high']
@@ -167,7 +167,7 @@ const tools: Tool[] = [
   },
   {
     name: 'validate_connection',
-    description: 'Test connection to LibreLink and validate credentials',
+    description: 'Test the connection to LibreLink servers and verify your credentials are working. Use this if you encounter errors or after updating credentials. Returns success/failure status.',
     inputSchema: {
       type: 'object',
       properties: {},
